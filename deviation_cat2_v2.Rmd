@@ -1,0 +1,106 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+108年資料範例
+
+先說明一下deviation coding的觀念
+請見dev_coding.docx
+
+
+## only by 學校 (舊的做法)
+```{r}
+df1 <- read.csv('108cat2.csv')
+des_rank1 <- df1$des_class_rank
+basic_rank <- df1$basic_class_rank
+y <- des_rank1 - basic_rank    #y: 指考排名-學測排名
+n = nrow(df1)
+
+school.f = factor(df1$school_group_my, labels=c("1", "2", "3", "4","5","6"))
+
+contrasts(school.f) = contr.sum(6) 
+summary(lm(y ~ school.f)) 
+
+```
++: 學測排名較好
+-: 指考排名較好
+1: 台清交成政 2:國立中 3:國立後 4:私立前 5:私立後 6: 私立後
+                 -49                +26            
+
+
+這樣做缺最後一類跟各組均數的差，所以我們可以再弄一個迴歸。
+
+
+```{r}
+nrow = 6
+c1 = contr.sum(nrow) 
+c2 = c1
+#print(c1)
+
+#switch the top and bottom rows
+c2[1,] = c1[nrow,]
+c2[nrow,] = c1[1,]
+print(c2)
+contrasts(school.f) = c2
+summary(lm(y ~ school.f)) 
+
+```
+
+
+這時school.f1就是最後一組係數。然後我們可以整理一下結果
+
+
+群組           |  與均數的差 (t-value)
+---------------|----------
+1: 台清交成政  | $-9.791$ (-1.171)
+2:國立中       | $-49.835^{***}$ (-5.486)
+3:國立後       | $-5.897$ (-0.765)
+4:私立前       | $26.370^{***}$ (3.078)
+5:私立後       | $22.015$ (1.175)
+6: 私立後      | $17.137$ (1.479)
+---------------|----
+
+*: p-value < 0.1
+**: p-value < 0.05
+***: p-value < 0.01
+
++: 學測排名較好
+-: 指考排名較好
+
+
+
+
+
+## only by 科系分類
+```{r}
+category <- df1$category
+category.f = factor(df1$category_id, labels=c("1", "2", "3", "4","5","6","7","8","9","10","99"))
+
+contrasts(category.f) = contr.sum(11) 
+summary(lm(y ~ category.f)) 
+```
++: 學測排名較好
+-: 指考排名較好
+
+1:教育 2:藝術人文 3:社科 4:商管法 5:自然科學 6:資訊通訊 7:工程/營建 8:農林漁/獸醫 9:醫藥衛生/社福  10:服務
+          59         -53                      (-32)
+
+```{r}
+nrow = 11
+c1 = contr.sum(nrow) 
+c2 = c1
+#print(c1)
+
+#switch the top and bottom rows
+c2[1,] = c1[nrow,]
+c2[nrow,] = c1[1,]
+#print(c2)
+contrasts(category.f) = c2
+summary(lm(y ~category.f)) 
+
+```
+
+

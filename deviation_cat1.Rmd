@@ -1,0 +1,128 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+108
+## only by 學校
+```{r}
+df1 <- read.csv('108cat1.csv')
+des_rank1 <- df1$des_class_rank
+basic_rank <- df1$basic_class_rank
+y <- des_rank1 - basic_rank    #y: 指考排名-學測排名
+n = nrow(df1)
+
+school.f = factor(df1$school_group_my, labels=c("1", "2", "3", "4","5","6"))
+
+
+contrasts(school.f) = contr.sum(6) #把school.f的label欄位轉成dummy形式
+summary(lm(y ~ school.f)) 
+
+```
++: 學測排名較好
+-: 指考排名較好
+1: 台清交成政 2:國立中 3:國立後 4:私立前 5:私立後 6: 私立後
+                 -53      -94       +30           
+                  
+```{r}
+nrow = 6
+c1 = contr.sum(nrow) 
+c2 = c1
+#print(c1)
+
+#switch the top and bottom rows
+c2[1,] = c1[nrow,]
+c2[nrow,] = c1[1,]
+print(c2)
+contrasts(school.f) = c2
+summary(lm(y ~ school.f)) 
+
+```
+
+
+## only by 科系分類
+```{r}
+category.f = factor(df1$category_id, labels=c("1", "2", "3", "4","5","6","7","8","9","10","99"))
+
+contrasts(category.f) = contr.sum(11) 
+summary(lm(y ~ category.f)) 
+```
++: 學測排名較好
+-: 指考排名較好
+1:教育 2:藝術人文 3:社科 4:商管法 5:自然科學 6:資訊通訊 7:工程/營建 8:農林漁/獸醫 9:醫藥衛生/社福  10:服務
+          -41      (-42)     -92                            +104
+ 
+```{r}
+nrow = 11
+c1 = contr.sum(nrow) 
+c2 = c1
+#print(c1)
+
+#switch the top and bottom rows
+c2[1,] = c1[nrow,]
+c2[nrow,] = c1[1,]
+#print(c2)
+contrasts(category.f) = c2
+summary(lm(y ~category.f)) 
+
+```
+
+
+
+
+
+ 
+## only by 科系分類 (my)
+```{r}
+
+category.f = factor(df1$category_my, labels=c("1", "2", "3", "4","5","6","7","8","9","10"))
+
+contrasts(category.f) = contr.sum(10) 
+summary(lm(y ~ category.f)) 
+```
++: 學測排名較好
+-: 指考排名較好
+1:法律 2:商管 3:藝術 4:人文 5:服務  6:教育 7:社科 8:資訊  9:工程/自然科學 10:建築
+  -97     -87     +64   -70                  -46
+
+
+
+
+
+
+-----------------------------------------------------------------------
+107
+
+## only by 學校
+```{r}
+df1 <- read.csv('107cat1.csv')
+des_rank1 <- df1$des_class_rank1
+basic_rank <- df1$basic_class_rank
+y <- des_rank1 - basic_rank    #y: 指考排名-學測排名
+n = nrow(df1)
+
+school.f = factor(df1$school_group_my, labels=c("1", "2", "3", "4","5","6"))
+
+contrasts(school.f) = contr.sum(6) 
+summary(lm(y ~ school.f)) 
+
+```
++: 學測排名較好
+-: 指考排名較好
+1: 台清交成政 2:國立中 3:國立後 4:私立前 5:私立後 6: 私立後
+                 -38      -22     (+17)           
+                  
+
+## only by 科系分類
+```{r}
+category <- df1$category
+category.f = factor(df1$category_id, labels=c("1", "2", "3", "4","5","6","7","8","9","10"))
+
+contrasts(category.f) = contr.sum(10) 
+summary(lm(y ~ category.f)) 
+```
++: 學測排名較好
+-: 指考排名較好
+ 
+1:教育 2:藝術人文 3:社科 4:商管法 5:自然科學 6:資訊通訊 7:工程/營建 8:農林漁/獸醫 9:醫藥衛生/社福  10:服務
+                    -30     -65                             +46

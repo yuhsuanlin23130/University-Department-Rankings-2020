@@ -1,0 +1,107 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+108
+
+## only by 學校
+```{r}
+df1 <- read.csv('108cat3.csv')
+des_rank1 <- df1$des_class_rank
+basic_rank <- df1$basic_class_rank
+y <- des_rank1 - basic_rank    #y: 指考排名-學測排名
+n = nrow(df1)
+
+school.f = factor(df1$school_group_my, labels=c("1", "2", "3", "4"))
+
+contrasts(school.f) = contr.sum(4) 
+summary(lm(y ~ school.f)) 
+
+```
++: 學測排名較好
+-: 指考排名較好
+1:有醫學系之校 2:國立 3:中興/嘉義 4:私立
+                        +11
+
+```{r}
+nrow = 4
+c1 = contr.sum(nrow) 
+c2 = c1
+#print(c1)
+
+#switch the top and bottom rows
+c2[1,] = c1[nrow,]
+c2[nrow,] = c1[1,]
+contrasts(school.f) = c2
+summary(lm(y ~ school.f)) 
+
+```
+
+
+## only by 科系分類
+```{r}
+category.f = factor(df1$category_id, labels=c("1", "3", "4","5","6","7","8","9","10"))
+
+contrasts(category.f) = contr.sum(9) 
+summary(lm(y ~ category.f)) 
+```
+
++: 學測排名較好
+-: 指考排名較好                  
+1:教育 3:社科 4:商管法 5:自然科學 6:資訊通訊 7:工程/營建 8:農林漁/獸醫 9:醫藥衛生/社福  10:服務
+                                                               +20
+```{r}
+nrow = 9
+c1 = contr.sum(nrow) 
+c2 = c1
+#print(c1)
+
+#switch the top and bottom rows
+c2[1,] = c1[nrow,]
+c2[nrow,] = c1[1,]
+#print(c2)
+contrasts(category.f) = c2
+summary(lm(y ~category.f)) 
+
+``` 
+ 
+ 
+---------------------------------------------------------------------------
+107
+
+## only by 學校
+```{r}
+df1 <- read.csv('107cat3.csv')
+des_rank1 <- df1$des_class_rank1
+basic_rank <- df1$basic_class_rank
+y <- des_rank1 - basic_rank    #y: 指考排名-學測排名
+n = nrow(df1)
+
+school.f = factor(df1$school_group_my, labels=c("1", "2", "3", "4"))
+
+contrasts(school.f) = contr.sum(4) 
+summary(lm(y ~ school.f)) 
+
+```
++: 學測排名較好
+-: 指考排名較好
+1:有醫學系之校 2:國立 3:中興/嘉義 4:私立
+      -6         -7         +11
+
+## only by 科系分類
+```{r}
+category.f = factor(df1$category_id, labels=c("1","3", "4","5","7","8","9","10"))
+
+contrasts(category.f) = contr.sum(8) 
+summary(lm(y ~ category.f)) 
+```
++: 學測排名較好
+-: 指考排名較好
+
+    
++: 學測排名較好
+-: 指考排名較好ㄖ
+1:教育 3:社科 4:商管法 5:自然科學  7:工程/營建 8:農林漁/獸醫 9:醫藥衛生/社福  10:服務 
+                                                   +13
+   

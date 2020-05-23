@@ -1,0 +1,92 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+108
+
+## only by 學校
+```{r}
+df1 <- read.csv('108cat2.csv')
+des_rank1 <- df1$des_class_rank1
+basic_rank <- df1$basic_class_rank
+y <- des_rank1 - basic_rank    #y: 指考排名-學測排名
+n = nrow(df1)
+
+school.f = factor(df1$school_group_my, labels=c("1", "2", "3", "4","5","6"))
+
+contrasts(school.f) = contr.sum(6) 
+summary(lm(y ~ school.f)) 
+
+```
++: 學測排名較好
+-: 指考排名較好
+1: 台清交成政 2:國立中 3:國立後 4:私立前 5:私立後 6: 私立後
+                 -49                +26            
+
+
+## only by 科系分類
+```{r}
+category <- df1$category
+category.f = factor(df1$category_id, labels=c("1", "2", "3", "4","5","6","7","8","9","10"))
+
+contrasts(category.f) = contr.sum(10) 
+summary(lm(y ~ category.f)) 
+```
++: 學測排名較好
+-: 指考排名較好
+
+1:教育 2:藝術人文 3:社科 4:商管法 5:自然科學 6:資訊通訊 7:工程/營建 8:農林漁/獸醫 9:醫藥衛生/社福  10:服務
+          59         -53                      (-32)
+          
+
+## only by 科系分類 (my)
+```{r}
+category.f = factor(df1$category_my, labels=c("1", "2", "3", "4","5","6","7","8"))
+
+contrasts(category.f) = contr.sum(8) 
+summary(lm(y ~ category.f)) 
+```
++: 學測排名較好
+-: 指考排名較好
+
+1:電機 2:資訊 3:理  4:建築 5:土木 6:航太商船 7:化學 8:其他
+  -35   -55   (-16)  +89
+
+
+--------------------------------------------------------------------------------------
+107
+
+## only by 學校
+```{r}
+df1 <- read.csv('107cat2.csv')
+des_rank1 <- df1$des_class_rank1
+basic_rank <- df1$basic_class_rank
+y <- des_rank1 - basic_rank    #y: 指考排名-學測排名
+n = nrow(df1)
+
+school.f = factor(df1$school_group_my, labels=c("1", "2", "3", "4","5","6"))
+
+contrasts(school.f) = contr.sum(6) 
+summary(lm(y ~ school.f)) 
+
+```
++: 學測排名較好
+-: 指考排名較好
+1: 台清交成政 2:國立中 3:國立後 4:私立前 5:私立後 6: 私立後
+                -27       -14       21           
+
+## only by 科系分類
+```{r}
+category.f = factor(df1$category_id, labels=c("1", "2", "3", "4","5","6","7","8","9","10","99"))
+
+contrasts(category.f) = contr.sum(11) 
+summary(lm(y ~ category.f)) 
+```
++: 學測排名較好
+-: 指考排名較好
+
+1:教育 2:藝術人文 3:社科 4:商管法 5:自然科學 6:資訊通訊 7:工程/營建 8:農林漁/獸醫 9:醫藥衛生/社福  10:服務 
+          (+39)                                  -34
+                  
