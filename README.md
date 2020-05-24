@@ -13,12 +13,12 @@
 
 
 ### 執行環境
-R + Rstudio
+R + Rstudio            
 Python + Jupyter Notebook
 
 ### 目錄結構說明
 * 科系分類標準.txt: 各類組學校一覽。
-* 108cat*.csv:　第一二三類組之科系資料。
-* deviation_cat*.Rmd：各類組之排名平均差距進行分析
-* scatter_plot_cat*.ipynb: 各類組之散佈圖
-* 108 dev_coding_result.xlsx 整理各類組依據學校或領域分群的迴歸分析結果。
+* 108cat*.csv:　第一、二、三類組(108cat1, 108cat2, 108cat3)之科系排名資料。
+* deviation_cat*.Rmd：各類組之排名平均差距分析與結果。
+* scatter_plot_cat*.ipynb: 各類組之散佈圖。
+* 108 dev_coding_result.xlsx: 整理各類組依據學校或領域分群的迴歸分析結果。
